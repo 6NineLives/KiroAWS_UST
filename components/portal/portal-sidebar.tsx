@@ -107,7 +107,12 @@ export function PortalSidebar({ open, onClose }: PortalSidebarProps) {
         <nav className="flex-1 overflow-y-auto py-4" aria-label="Online services">
           <Link
             href="/"
-            onClick={onClose}
+            onClick={(e) => {
+              // Force a full page reload when navigating to dashboard
+              // This ensures hash state is properly reset for subsequent navigation
+              e.preventDefault()
+              window.location.href = "/"
+            }}
             className={cn(
               "flex items-center gap-3 px-6 py-2.5 text-sm font-medium transition-colors",
               pathname === "/"
