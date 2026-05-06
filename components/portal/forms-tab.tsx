@@ -56,7 +56,7 @@ export function FormsTab({ id, eyebrow, heading, blurb, forms }: FormsTabProps) 
                 <td className="px-4 py-3.5">
                   <div className="flex items-start gap-3">
                     <FileText
-                      className="mt-0.5 h-5 w-5 shrink-0 text-destructive"
+                      className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground"
                       aria-hidden="true"
                     />
                     <div>

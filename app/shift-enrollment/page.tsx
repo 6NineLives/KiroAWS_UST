@@ -3,6 +3,7 @@
 import { PortalShell } from "@/components/portal/portal-shell"
 import { PortalBreadcrumb } from "@/components/portal/portal-breadcrumb"
 import { SectionHeader } from "@/components/portal/section-header"
+import { TabsNav } from "@/components/portal/tabs-nav"
 import { CollegeSelectionTab } from "@/components/shift/college-selection-tab"
 import { FormsTab } from "@/components/portal/forms-tab"
 import { TrackingTab } from "@/components/portal/tracking-tab"
@@ -30,6 +31,12 @@ export default function ShiftEnrollmentPage() {
         eyebrow="Enrollment Center"
         title={portalConfig.shift.title}
         description={portalConfig.shift.subtitle}
+      />
+      <TabsNav
+        tabs={portalConfig.shift.tabs}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="Shift Enrollment sections"
       />
       {activeTab === "select" && <CollegeSelectionTab />}
       {activeTab === "forms" && (

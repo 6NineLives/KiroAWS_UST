@@ -43,4 +43,14 @@ export interface CollegeOption {
   keywords: string[]
   description: string
   requirements: string[]
+  icon?: string
+  programs?: Program[]
+}
+
+export interface Program {
+  id: string
+  name: string
+  code: string
+  description: string
+  preliminaryRequirements: string[]
 }

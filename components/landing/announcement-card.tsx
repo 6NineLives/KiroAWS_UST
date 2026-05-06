@@ -12,7 +12,7 @@ export function AnnouncementCard() {
       <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-4">
           <div
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gold/20 text-brand-gold-foreground ring-1 ring-brand-gold/40"
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gold text-brand-gold-foreground ring-1 ring-brand-gold"
             aria-hidden="true"
           >
             <Megaphone className="h-6 w-6" />

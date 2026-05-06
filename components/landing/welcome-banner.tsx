@@ -29,7 +29,7 @@ export function WelcomeBanner() {
     >
       <div className="flex items-center gap-3">
         <div
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-gold/30 text-brand-gold-foreground ring-2 ring-brand-gold/40"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-gold text-brand-gold-foreground ring-2 ring-brand-gold"
           aria-hidden="true"
         >
           <UserRound className="h-6 w-6" />

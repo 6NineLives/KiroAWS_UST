@@ -3,6 +3,7 @@
 import { PortalShell } from "@/components/portal/portal-shell"
 import { PortalBreadcrumb } from "@/components/portal/portal-breadcrumb"
 import { SectionHeader } from "@/components/portal/section-header"
+import { TabsNav } from "@/components/portal/tabs-nav"
 import { DeficienciesTab } from "@/components/swis/deficiencies-tab"
 import { FormsTab } from "@/components/portal/forms-tab"
 import { TrackingTab } from "@/components/portal/tracking-tab"
@@ -30,6 +31,12 @@ export default function SwisEnrollmentPage() {
         eyebrow="Enrollment Center"
         title={portalConfig.swis.title}
         description={portalConfig.swis.subtitle}
+      />
+      <TabsNav
+        tabs={portalConfig.swis.tabs}
+        activeTab={activeTab}
+        onChange={setActiveTab}
+        ariaLabel="SWIS Enrollment sections"
       />
       {activeTab === "deficiencies" && <DeficienciesTab />}
       {activeTab === "forms" && (

@@ -41,9 +41,9 @@ export const portalConfig = {
         title: "SWIS Enrollment",
         description:
           "Track deficiencies, download required forms, and monitor submitted documents for SWIS enrollment.",
-        href: "/swis-enrollment",
+        href: "/swis-enrollment#deficiencies",
         links: [
-          { label: "View Deficiencies", href: "/swis-enrollment#deficiencies" },
+          { label: "Deficiencies", href: "/swis-enrollment#deficiencies" },
           { label: "Downloadable Forms", href: "/swis-enrollment#forms" },
           { label: "Document Tracking", href: "/swis-enrollment#tracking" },
         ],
@@ -53,7 +53,7 @@ export const portalConfig = {
         title: "Shift Enrollment",
         description:
           "Browse colleges, review shifting requirements, and submit your application to a new program.",
-        href: "/shift-enrollment",
+        href: "/shift-enrollment#select",
         links: [
           { label: "Select College", href: "/shift-enrollment#select" },
           { label: "Downloadable Forms", href: "/shift-enrollment#forms" },
@@ -382,6 +382,7 @@ export const colleges: CollegeOption[] = [
     id: "cics",
     code: "CICS",
     name: "College of Information and Computing Sciences",
+    icon: "/colleges/cics.jpg",
     keywords: ["computer", "information", "technology", "data", "stem", "computing"],
     description:
       "Programs in Computer Science, Information Technology, and Information Systems with industry-driven specializations.",
@@ -392,11 +393,47 @@ export const colleges: CollegeOption[] = [
       "Clearance from current college and library",
       "Interview with the Department Chair of the receiving program",
     ],
+    programs: [
+      {
+        id: "bscs",
+        code: "BSCS",
+        name: "Bachelor of Science in Computer Science",
+        description: "Focus on algorithms, software development, and theoretical foundations of computing.",
+        preliminaryRequirements: [
+          "Passing grade in Calculus and Discrete Mathematics",
+          "Programming proficiency assessment",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bsit",
+        code: "BSIT",
+        name: "Bachelor of Science in Information Technology",
+        description: "Emphasis on systems administration, networking, and enterprise solutions.",
+        preliminaryRequirements: [
+          "Basic mathematics requirement",
+          "Technical aptitude test",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bsis",
+        code: "BSIS",
+        name: "Bachelor of Science in Information Systems",
+        description: "Integration of business processes with information technology solutions.",
+        preliminaryRequirements: [
+          "Business mathematics completion",
+          "Systems analysis assessment",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "ccs",
     code: "CCS",
     name: "College of Commerce and Business Administration",
+    icon: "/colleges/ccs.jpg",
     keywords: ["business", "commerce", "accounting", "finance", "management", "marketing"],
     description:
       "Business administration majors covering Accounting, Finance, Management, Marketing, and Entrepreneurship.",
@@ -406,11 +443,36 @@ export const colleges: CollegeOption[] = [
       "Recommendation letter from current adviser",
       "Personal interview with the Assistant Dean for Academics",
     ],
+    programs: [
+      {
+        id: "bsba-accounting",
+        code: "BSBA-ACCTG",
+        name: "BS Business Administration major in Accounting",
+        description: "Preparation for CPA licensure and careers in financial accounting.",
+        preliminaryRequirements: [
+          "Accounting fundamentals assessment",
+          "Mathematics proficiency",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bsba-finance",
+        code: "BSBA-FIN",
+        name: "BS Business Administration major in Finance",
+        description: "Focus on financial management, investment analysis, and corporate finance.",
+        preliminaryRequirements: [
+          "Financial mathematics completion",
+          "Economics background check",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "engr",
     code: "ENGR",
     name: "College of Engineering",
+    icon: "/colleges/engr.jpg",
     keywords: ["engineering", "civil", "mechanical", "electrical", "chemical", "stem"],
     description:
       "Programs in Civil, Mechanical, Electrical, Chemical, Industrial, and Computer Engineering.",
@@ -420,11 +482,36 @@ export const colleges: CollegeOption[] = [
       "Recommendation from current program chair",
       "Completion of pre-calculus and physics prerequisites",
     ],
+    programs: [
+      {
+        id: "bsce",
+        code: "BSCE",
+        name: "Bachelor of Science in Civil Engineering",
+        description: "Design and construction of infrastructure and building systems.",
+        preliminaryRequirements: [
+          "Physics and Calculus completion",
+          "Engineering aptitude test",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bsee",
+        code: "BSEE",
+        name: "Bachelor of Science in Electrical Engineering",
+        description: "Focus on electrical systems, power generation, and electronics.",
+        preliminaryRequirements: [
+          "Physics and Advanced Mathematics",
+          "Circuit analysis assessment",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "arch",
     code: "ARCH",
     name: "College of Architecture",
+    icon: "/colleges/arch.jpg",
     keywords: ["architecture", "design", "drafting", "spatial", "creative"],
     description:
       "Five-year program in Architecture with strong emphasis on design studios and heritage conservation.",
@@ -434,11 +521,25 @@ export const colleges: CollegeOption[] = [
       "Cumulative weighted average of at least 2.50",
       "Letter of intent and personal statement",
     ],
+    programs: [
+      {
+        id: "bsarch",
+        code: "BS ARCH",
+        name: "Bachelor of Science in Architecture",
+        description: "Comprehensive architectural education with focus on sustainable design.",
+        preliminaryRequirements: [
+          "Portfolio submission",
+          "Design aptitude test",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "fine-arts",
     code: "CFAD",
     name: "College of Fine Arts and Design",
+    icon: "/colleges/cfad.jpg",
     keywords: ["arts", "design", "advertising", "interior", "industrial", "creative"],
     description:
       "Programs in Advertising Arts, Painting, Interior Design, Industrial Design, and Visual Communication.",
@@ -448,11 +549,36 @@ export const colleges: CollegeOption[] = [
       "Letter of intent",
       "Cumulative weighted average of at least 2.25",
     ],
+    programs: [
+      {
+        id: "bfa-advertising",
+        code: "BFA-AD",
+        name: "Bachelor of Fine Arts in Advertising Arts",
+        description: "Creative advertising and visual communication strategies.",
+        preliminaryRequirements: [
+          "Portfolio submission",
+          "Creative aptitude test",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bfa-interior",
+        code: "BFA-ID",
+        name: "Bachelor of Fine Arts in Interior Design",
+        description: "Spatial design for residential and commercial environments.",
+        preliminaryRequirements: [
+          "Design portfolio",
+          "Spatial reasoning test",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "education",
     code: "EDUC",
     name: "College of Education",
+    icon: "/colleges/educ.png",
     keywords: ["education", "teaching", "elementary", "secondary", "humanities"],
     description:
       "Teacher-preparation programs with majors spanning early childhood through secondary education.",
@@ -462,11 +588,25 @@ export const colleges: CollegeOption[] = [
       "Recommendation letter from current program chair",
       "Personal interview with the Education Admissions Committee",
     ],
+    programs: [
+      {
+        id: "beed",
+        code: "BEED",
+        name: "Bachelor of Elementary Education",
+        description: "Preparation for teaching in elementary grade levels.",
+        preliminaryRequirements: [
+          "Teaching aptitude test",
+          "Child psychology assessment",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "nursing",
     code: "CON",
     name: "College of Nursing",
+    icon: "/colleges/nursing.png",
     keywords: ["nursing", "health", "medical", "clinical", "care"],
     description:
       "Bachelor of Science in Nursing with strong clinical exposure across affiliated tertiary hospitals.",
@@ -476,11 +616,26 @@ export const colleges: CollegeOption[] = [
       "Medical and physical fitness certification",
       "Interview with the Nursing Admissions Panel",
     ],
+    programs: [
+      {
+        id: "bsn",
+        code: "BSN",
+        name: "Bachelor of Science in Nursing",
+        description: "Comprehensive nursing education with clinical practice.",
+        preliminaryRequirements: [
+          "Health sciences background",
+          "Nursing aptitude test",
+          "Medical clearance",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "law",
     code: "LAW",
     name: "Faculty of Civil Law",
+    icon: "/colleges/law.jpg",
     keywords: ["law", "legal", "civil", "graduate", "juris"],
     description:
       "Juris Doctor program preparing students for the Philippine Bar with a strong civil law tradition.",
@@ -490,11 +645,26 @@ export const colleges: CollegeOption[] = [
       "Personal statement and letter of intent",
       "Interview with the Law Admissions Committee",
     ],
+    programs: [
+      {
+        id: "jd",
+        code: "JD",
+        name: "Juris Doctor",
+        description: "Professional law degree for Philippine Bar preparation.",
+        preliminaryRequirements: [
+          "Bachelor's degree completion",
+          "Law aptitude test",
+          "Personal statement",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "music",
     code: "MUS",
     name: "Conservatory of Music",
+    icon: "/colleges/music.png",
     keywords: ["music", "composition", "performance", "voice", "instrument"],
     description:
       "Programs in Performance, Composition, Music Education, and Music Technology.",
@@ -504,11 +674,25 @@ export const colleges: CollegeOption[] = [
       "Cumulative weighted average of at least 2.25",
       "Letter of intent",
     ],
+    programs: [
+      {
+        id: "bm-performance",
+        code: "BM-PERF",
+        name: "Bachelor of Music in Performance",
+        description: "Intensive training in instrumental or vocal performance.",
+        preliminaryRequirements: [
+          "Performance audition",
+          "Music theory test",
+          "Letter of intent",
+        ],
+      },
+    ],
   },
   {
     id: "tourism",
     code: "CTHM",
     name: "College of Tourism and Hospitality Management",
+    icon: "/colleges/tourism.jpg",
     keywords: ["tourism", "hospitality", "hotel", "travel", "events"],
     description:
       "Programs in Tourism Management, Hospitality Management, and Travel Operations.",
@@ -517,6 +701,30 @@ export const colleges: CollegeOption[] = [
       "Personality and grooming interview",
       "Letter of intent",
       "Recommendation from your current program chair",
+    ],
+    programs: [
+      {
+        id: "bstm",
+        code: "BSTM",
+        name: "Bachelor of Science in Tourism Management",
+        description: "Tourism planning, destination management, and travel operations.",
+        preliminaryRequirements: [
+          "Personality interview",
+          "Communication skills assessment",
+          "Letter of intent",
+        ],
+      },
+      {
+        id: "bshm",
+        code: "BSHM",
+        name: "Bachelor of Science in Hospitality Management",
+        description: "Hotel and restaurant management with service excellence focus.",
+        preliminaryRequirements: [
+          "Personality and grooming assessment",
+          "Service aptitude test",
+          "Letter of intent",
+        ],
+      },
     ],
   },
 ]

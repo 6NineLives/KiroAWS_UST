@@ -1,6 +1,6 @@
 # Portal Pages Reference
 
-Complete list of all available pages in the UST-OSA Enrollment Portal.
+Complete list of all available pages in the UST-OICT Online Services Portal.
 
 ## Public Pages
 
@@ -8,254 +8,329 @@ Complete list of all available pages in the UST-OSA Enrollment Portal.
 - **URL**: `/`
 - **Description**: Main landing page with service cards and announcements
 - **Features**: 
-  - Welcome banner with user info
+  - Welcome banner with user info and current date/time
   - Announcement section
-  - Service cards (Scholarship, Formation)
-  - Quick navigation to all services
-
-### Announcements
-- **URL**: `/announcements`
-- **Description**: Latest updates and announcements from OSA
-- **Features**:
-  - Categorized announcements
-  - Important notices highlighted
-  - Date-sorted content
-  - Read more functionality
-
-## Scholarship Application
-
-### Apply New Scholarship
-- **URL**: `/scholarship/apply`
-- **Description**: Scholarship application form
-- **Features**:
-  - Application form interface
-  - Important notes section
-  - Document requirements reminder
-  - Sidebar navigation
-
-### View Scholarship
-- **URL**: `/scholarship/view`
-- **Description**: View current scholarship status and information
-- **Features**:
-  - Scholarship details display
-  - Status badge
-  - Contact information
-  - Approval notifications
-  - Sidebar navigation
-
-### Downloadable Forms (Scholarship)
-- **URL**: `/scholarship/forms`
-- **Description**: Download scholarship-related forms
-- **Features**:
-  - List of downloadable PDF forms
-  - Form descriptions
-  - One-click download
-  - Sidebar navigation
-
-## Formation Program
-
-### Formation Programs
-- **URL**: `/formation`
-- **Description**: View and register for formation programs
-- **Features**:
-  - Program listings
-  - Schedule and venue information
-  - Slot availability
-  - Registration buttons
-  - Program requirements
-  - Sidebar navigation
+  - Service cards (SWIS Enrollment, Shift Enrollment)
+  - Quick navigation to all services with hash-based routing
+  - Responsive grid layout
 
 ## SWIS Enrollment
 
 ### SWIS Enrollment Portal
-- **URL**: `/enrollment/swis`
-- **Query Parameters**: `?tab=deficiencies|forms|tracking`
-- **Description**: SWIS enrollment management
+- **URL**: `/swis-enrollment`
+- **Hash Parameters**: `#deficiencies`, `#forms`, `#tracking`
+- **Description**: SWIS (Subject Without Independent Schedule) enrollment management
 - **Features**:
-  - Tab navigation (Deficiencies, Forms, Tracking)
+  - Tab navigation with hash-based routing
+  - Persistent sidebar navigation
+  - Breadcrumb navigation
   - Deep-linking support
-  - Sidebar navigation between SWIS and Shift
 
 #### Tab: Deficiencies
-- **URL**: `/enrollment/swis?tab=deficiencies`
+- **URL**: `/swis-enrollment#deficiencies`
 - **Description**: View failed subjects and deficiencies
 - **Features**:
-  - Table of deficiencies
-  - Subject details
-  - Status tracking
-  - Action required column
+  - Summary statistics (Total Subjects, Total Units, Status)
+  - Desktop table view with all subject details
+  - Mobile card view for responsive design
+  - Subject information: code, title, units, term, professor, grade, reason, next offering
+  - Standard gray text styling (no conditional coloring)
 
 #### Tab: Downloadable Forms
-- **URL**: `/enrollment/swis?tab=forms`
+- **URL**: `/swis-enrollment#forms`
 - **Description**: Download SWIS enrollment forms
 - **Features**:
-  - PDF form downloads
+  - Table of downloadable PDF forms
   - Form descriptions
-  - Force download functionality
+  - Neutral gray document icons
+  - One-click download functionality
+  - Format column showing file type
 
 #### Tab: Document Tracking
-- **URL**: `/enrollment/swis?tab=tracking`
-- **Description**: Track submitted documents
+- **URL**: `/swis-enrollment#tracking`
+- **Description**: Track submitted documents and application status
 - **Features**:
-  - Document status badges
-  - Expandable admin remarks
-  - Submission dates
-  - Status updates
+  - Attachments table with upload functionality
+  - Columns: Document Requirements, Accepted File Type/s, Attach File, Date Submitted
+  - File upload buttons for each document
+  - Unified Remarks section (below attachments)
+  - Unified Status section (below remarks)
+  - Plain text status indicators (no emojis): SUBMITTED, FOR OSA REVIEW, APPROVED SCHOLARSHIP
 
 ## Shift Enrollment
 
 ### Shift Enrollment Portal
-- **URL**: `/enrollment/shift`
-- **Query Parameters**: `?tab=college-selection|requirements|tracking`
-- **Description**: Shift enrollment management
+- **URL**: `/shift-enrollment`
+- **Hash Parameters**: `#select`, `#forms`, `#tracking`
+- **Description**: Shift enrollment management for changing colleges
 - **Features**:
-  - Tab navigation (College Selection, Requirements, Tracking)
+  - Tab navigation with hash-based routing
+  - Persistent sidebar navigation
+  - Breadcrumb navigation
   - Deep-linking support
-  - Sidebar navigation between SWIS and Shift
 
-#### Tab: College Selection
-- **URL**: `/enrollment/shift?tab=college-selection`
-- **Description**: Select target college for shifting
+#### Tab: Select College
+- **URL**: `/shift-enrollment#select`
+- **Description**: Browse and select target college for shifting
 - **Features**:
-  - Filterable college cards
-  - Keyword search
-  - College descriptions
-  - Selection persistence (localStorage)
-  - Selected college indicator
+  - Filterable college grid (search by name, code, keywords)
+  - College cards with icons (from `/public/colleges/`)
+  - College information: code, name, description
+  - Click to navigate to college detail page
+  - Responsive grid layout (1-3 columns)
+  - No state persistence (removed "Currently Selected" banner)
 
-#### Tab: Requirements
-- **URL**: `/enrollment/shift?tab=requirements`
-- **Description**: View requirements for selected college
+### College Detail Page
+- **URL**: `/shift-enrollment/college/[collegeId]`
+- **Description**: View college details, requirements, and programs
 - **Features**:
-  - College-specific requirements
-  - Required field indicators
-  - Requirement descriptions
-  - Empty state when no college selected
+  - Back button to college selection
+  - Breadcrumb navigation
+  - College header with code, name, and description
+  - **Shifting Requirements section** (top of page)
+    - Numbered list of requirements
+    - College-specific criteria
+  - **Programs Offered section** (below requirements)
+    - Grid of program cards
+    - Program information: code, name, description
+    - Click to open Preliminary Requirements popup
+
+#### Preliminary Requirements Popup
+- **Trigger**: Click on any program card
+- **Description**: Submit application for specific program
+- **Features**:
+  - Modal dialog with program name and code
+  - Attachments table (same format as Document Tracking)
+  - Columns: Document Requirements, Accepted File Type/s, Attach File, Date Submitted
+  - File upload functionality for each requirement
+  - Cancel and Submit Application buttons
+  - Success message dialog after submission
+
+#### Success Message Dialog
+- **Trigger**: After submitting application
+- **Description**: Confirmation of successful submission
+- **Features**:
+  - Green checkmark icon
+  - Success message with program name
+  - Email notification mention
+  - Close button
+
+#### Tab: Downloadable Forms
+- **URL**: `/shift-enrollment#forms`
+- **Description**: Download shift enrollment forms
+- **Features**:
+  - Same as SWIS forms tab
+  - Shift-specific forms
+  - Neutral gray document icons
 
 #### Tab: Document Tracking
-- **URL**: `/enrollment/shift?tab=tracking`
+- **URL**: `/shift-enrollment#tracking`
 - **Description**: Track shift enrollment documents
 - **Features**:
-  - Same as SWIS document tracking
-  - Document status badges
-  - Admin remarks
+  - Same structure as SWIS document tracking
+  - Attachments table with upload functionality
+  - Unified Remarks and Status sections
+  - Plain text status indicators (no emojis)
 
 ## Navigation Structure
 
 ```
 Landing Page (/)
-├── Announcements (/announcements)
-├── Scholarship Application
-│   ├── Apply (/scholarship/apply)
-│   ├── View (/scholarship/view)
-│   └── Forms (/scholarship/forms)
-├── Formation Program (/formation)
-├── SWIS Enrollment (/enrollment/swis)
-│   ├── Deficiencies (?tab=deficiencies)
-│   ├── Forms (?tab=forms)
-│   └── Tracking (?tab=tracking)
-└── Shift Enrollment (/enrollment/shift)
-    ├── College Selection (?tab=college-selection)
-    ├── Requirements (?tab=requirements)
-    └── Tracking (?tab=tracking)
+├── SWIS Enrollment (/swis-enrollment)
+│   ├── Deficiencies (#deficiencies)
+│   ├── Downloadable Forms (#forms)
+│   └── Document Tracking (#tracking)
+└── Shift Enrollment (/shift-enrollment)
+    ├── Select College (#select)
+    │   └── College Detail (/shift-enrollment/college/[collegeId])
+    │       └── Preliminary Requirements Popup (modal)
+    │           └── Success Message Dialog (modal)
+    ├── Downloadable Forms (#forms)
+    └── Document Tracking (#tracking)
 ```
 
 ## Deep-Linking Examples
 
-### Direct Tab Access
+### Hash-Based Navigation
 ```
-http://localhost:3000/enrollment/swis?tab=deficiencies
-http://localhost:3000/enrollment/swis?tab=forms
-http://localhost:3000/enrollment/swis?tab=tracking
-http://localhost:3000/enrollment/shift?tab=college-selection
-http://localhost:3000/enrollment/shift?tab=requirements
-http://localhost:3000/enrollment/shift?tab=tracking
+http://localhost:3000/swis-enrollment#deficiencies
+http://localhost:3000/swis-enrollment#forms
+http://localhost:3000/swis-enrollment#tracking
+http://localhost:3000/shift-enrollment#select
+http://localhost:3000/shift-enrollment#forms
+http://localhost:3000/shift-enrollment#tracking
+```
+
+### Dynamic Routes
+```
+http://localhost:3000/shift-enrollment/college/cics
+http://localhost:3000/shift-enrollment/college/engr
+http://localhost:3000/shift-enrollment/college/nursing
 ```
 
 ### Bookmarkable URLs
-All URLs with query parameters can be bookmarked and shared. The portal will automatically navigate to the correct tab.
+All URLs with hash parameters can be bookmarked and shared. The portal will automatically navigate to the correct tab using the `useTabHash` hook.
 
 ## Sidebar Navigation
 
-### Scholarship Pages
-- Apply New Scholarship
-- View Scholarship
-- Downloadable Forms
-
-### Formation Page
-- Formation Program (single section)
-
 ### SWIS/Shift Pages
+- Dashboard (Home)
 - SWIS Enrollment
+  - Deficiencies
+  - Downloadable Forms
+  - Document Tracking
 - Shift Enrollment
+  - Select College
+  - Downloadable Forms
+  - Document Tracking
 
 ## Page Features Summary
 
-| Page | Sidebar | Tabs | Deep-Link | LocalStorage |
-|------|---------|------|-----------|--------------|
-| Landing | No | No | No | No |
-| Announcements | No | No | No | No |
-| Scholarship Apply | Yes | No | No | No |
-| Scholarship View | Yes | No | No | No |
-| Scholarship Forms | Yes | No | No | No |
-| Formation | Yes | No | No | No |
-| SWIS Enrollment | Yes | Yes | Yes | No |
-| Shift Enrollment | Yes | Yes | Yes | Yes |
+| Page | Sidebar | Tabs | Hash-Link | File Upload | Modal |
+|------|---------|------|-----------|-------------|-------|
+| Landing | No | No | No | No | No |
+| SWIS Enrollment | Yes | Yes | Yes | Yes | No |
+| Shift Enrollment | Yes | Yes | Yes | Yes | No |
+| College Detail | Yes | No | No | No | Yes |
 
 ## Common Elements
 
 All pages include:
-- **Header**: Site branding and navigation
-- **Footer**: University information and credits
-
-Pages with user context include:
-- **UserWelcome**: User greeting and date/time
+- **Header**: Site branding (UST-OICT), logout button
+- **Footer**: Empty (content removed as per requirements)
 
 Pages with sidebar navigation include:
-- **Sidebar**: User profile and section navigation
+- **Sidebar**: User profile card, navigation menu, college branding
+
+Pages with enrollment context include:
+- **Breadcrumb**: Navigation path
+- **Section Header**: Page title and description
+- **Tabs Navigation**: Tab switcher with active state
+
+## Data Structure
+
+### College Icons
+- **Location**: `public/colleges/`
+- **Formats**: `.jpg`, `.png`
+- **Files**:
+  - cics.jpg, ccs.jpg, engr.jpg, arch.jpg, cfad.jpg
+  - law.jpg, tourism.jpg
+  - educ.png, music.png, nursing.png
+
+### College Data
+Each college includes:
+- Basic info: id, code, name, description, keywords
+- Icon path
+- Shifting requirements (array of strings)
+- Programs (array of Program objects)
+
+### Program Data
+Each program includes:
+- Basic info: id, code, name, description
+- Preliminary requirements (array of strings)
+
+## Technical Implementation
+
+### Routing
+- **Hash-based routing**: Uses `useTabHash` hook for tab navigation
+- **Dynamic routes**: Next.js App Router with `[collegeId]` parameter
+- **Client-side navigation**: Next.js Link component and useRouter
+
+### State Management
+- **Tab state**: Synced with URL hash
+- **File uploads**: Local component state
+- **Modal state**: Local component state (no global state)
+
+### Styling
+- **Design system**: Tailwind CSS with custom color tokens
+- **Brand colors**: 
+  - brand-gold: Yellow accent color
+  - brand-dark: Dark header/sidebar background
+  - brand-blue: Link and active state color
+- **Status colors**: 
+  - status-received: Green for approved/received
+  - status-pending: Yellow for pending review
+  - status-incomplete: Red for incomplete/rejected
 
 ## Testing Checklist
 
 For each page, verify:
 - [ ] Page loads without errors
-- [ ] Header displays correctly
-- [ ] Footer displays correctly
-- [ ] Sidebar navigation works (if applicable)
-- [ ] Tab navigation works (if applicable)
-- [ ] Deep-linking works (if applicable)
-- [ ] All links are functional
+- [ ] Header displays correctly (no Home button)
+- [ ] Footer is empty (no text content)
+- [ ] Sidebar navigation works
+- [ ] Tab navigation works with hash routing
+- [ ] Hash changes update active tab
+- [ ] Back/forward browser buttons work
+- [ ] Deep-linking works from landing page
+- [ ] College icons display correctly
+- [ ] File upload buttons work
+- [ ] Modal dialogs open and close
+- [ ] Success message appears after submission
+- [ ] No emoji rendering in status indicators
 - [ ] Responsive on mobile
 - [ ] Keyboard navigation works
 - [ ] No console errors
 
-## Future Pages
+## Recent Updates
 
-Potential pages for future development:
-- User Profile Settings
-- Document Upload Interface
-- Payment/Billing Information
-- Academic Records
-- Grade Viewing
-- Schedule Management
-- Admin Dashboard
-- Reports and Analytics
+### UI/UX Changes
+- ✅ Removed Home button from header
+- ✅ Removed footer text content
+- ✅ Updated landing page icon colors to match brand-gold
+- ✅ Removed conditional coloring from deficiencies (all gray text)
+- ✅ Changed document icons from red to neutral gray
+- ✅ Removed emojis from all status indicators
+
+### Shift Enrollment Redesign
+- ✅ College selection now navigates to detail page (no state persistence)
+- ✅ Removed "Currently Selected" banner
+- ✅ Added college detail page with requirements at top
+- ✅ Added programs list below requirements
+- ✅ Preliminary requirements popup matches document tracking layout
+- ✅ Added success message dialog after submission
+
+### Document Tracking Redesign
+- ✅ New table schema: Document Requirements, Accepted File Type/s, Attach File, Date Submitted
+- ✅ Unified Remarks section (below all documents)
+- ✅ Unified Status section (below remarks)
+- ✅ Removed per-document expand/collapse
+- ✅ Plain text status indicators only
+
+## Future Enhancements
+
+Potential features for future development:
+- Backend API integration for real data
+- User authentication and authorization
+- Real file upload to server
+- Email notifications
+- Application status tracking
+- Admin dashboard for reviewing applications
+- PDF generation for submitted applications
+- Payment integration
+- Academic records integration
 
 ## Page Status
 
 | Page | Status | Notes |
 |------|--------|-------|
-| Landing | ✅ Complete | Fully functional |
-| Announcements | ✅ Complete | Mock data |
-| Scholarship Apply | ✅ Complete | Form placeholder |
-| Scholarship View | ✅ Complete | Mock data |
-| Scholarship Forms | ✅ Complete | Uses config |
-| Formation | ✅ Complete | Mock data |
-| SWIS Enrollment | ✅ Complete | All tabs functional |
-| Shift Enrollment | ✅ Complete | All tabs functional |
+| Landing | ✅ Complete | Hash-based routing to tabs |
+| SWIS Deficiencies | ✅ Complete | Standard gray styling |
+| SWIS Forms | ✅ Complete | Neutral icons |
+| SWIS Tracking | ✅ Complete | Unified remarks/status |
+| Shift Selection | ✅ Complete | Navigation-based |
+| College Detail | ✅ Complete | Requirements + programs |
+| Preliminary Req | ✅ Complete | Upload + submit |
+| Shift Forms | ✅ Complete | Neutral icons |
+| Shift Tracking | ✅ Complete | Unified remarks/status |
 
 ## Notes
 
 - All pages use mock data and are ready for backend integration
 - PDF forms need to be added to `public/forms/` directory
+- College icons are in `public/colleges/` directory
 - User authentication not yet implemented
-- All pages are statically generated for optimal performance
+- File uploads are client-side only (not sent to server)
+- All pages use Next.js App Router with client components
+- Hash-based routing provides better UX for tab navigation
+- Status indicators use plain text only (accessibility improvement)

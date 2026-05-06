@@ -1,9 +1,7 @@
 "use client"
 
-import { Fragment, useState } from "react"
-import { ChevronDown, FileText, MessageSquare } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { StatusBadge } from "./status-badge"
+import { useState } from "react"
+import { Upload } from "lucide-react"
 import type { TrackedDocument } from "@/lib/portal-types"
 
 interface TrackingTabProps {
@@ -14,8 +12,6 @@ interface TrackingTabProps {
   documents: TrackedDocument[]
 }
 
-const REQUIRED_IDS = new Set<string>(["DOC-1001", "STD-2001"])
-
 export function TrackingTab({
   id,
   eyebrow,
@@ -23,10 +19,32 @@ export function TrackingTab({
   blurb,
   documents,
 }: TrackingTabProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [uploadedFiles, setUploadedFiles] = useState<Record<string, File | null>>({})
 
-  const toggle = (docId: string) =>
-    setExpandedId((prev) => (prev === docId ? null : docId))
+  const handleFileChange = (docId: string, file: File | null) => {
+    setUploadedFiles((prev) => ({ ...prev, [docId]: file }))
+  }
+
+  // Collect all remarks from all documents for the unified remarks section
+  const allRemarks = documents.flatMap(doc => 
+    doc.remarks.map(remark => ({
+      ...remark,
+      documentTitle: doc.title
+    }))
+  ).sort((a, b) => {
+    // Sort by date (most recent first)
+    return new Date(b.date).getTime() - new Date(a.date).getTime()
+  })
+
+  // Collect all status entries from all documents
+  const allStatuses = documents.map(doc => ({
+    date: doc.submittedAt,
+    status: doc.status,
+    documentTitle: doc.title
+  })).sort((a, b) => {
+    // Sort by date (most recent first)
+    return new Date(b.date).getTime() - new Date(a.date).getTime()
+  })
 
   return (
     <div
@@ -59,7 +77,16 @@ export function TrackingTab({
             <thead className="bg-muted text-left text-xs font-bold uppercase tracking-wide text-foreground">
               <tr>
                 <th scope="col" className="px-4 py-3">
-                  Document
+                  Document Requirements
+                </th>
+                <th
+                  scope="col"
+                  className="hidden w-48 px-4 py-3 sm:table-cell"
+                >
+                  Accepted File Type/s
+                </th>
+                <th scope="col" className="w-44 px-4 py-3">
+                  Attach File
                 </th>
                 <th
                   scope="col"
@@ -67,126 +94,157 @@ export function TrackingTab({
                 >
                   Date Submitted
                 </th>
-                <th scope="col" className="w-44 px-4 py-3">
-                  Activity
-                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {documents.map((doc) => {
-                const isOpen = expandedId === doc.id
-                const hasRemarks = doc.remarks.length > 0
-                const isRequired = REQUIRED_IDS.has(doc.id)
+                const uploadedFile = uploadedFiles[doc.id]
                 return (
-                  <Fragment key={doc.id}>
-                    <tr
-                      className={cn(
-                        "transition-colors",
-                        isOpen ? "bg-muted/40" : "hover:bg-muted/30",
-                      )}
-                    >
-                      <td className="px-4 py-3.5">
-                        <div className="flex items-start gap-3">
-                          <FileText
-                            className="mt-0.5 h-5 w-5 shrink-0 text-destructive"
-                            aria-hidden="true"
-                          />
-                          <div className="min-w-0">
-                            <p className="font-semibold text-foreground">
-                              {doc.title}
-                              {isRequired && (
-                                <span className="ml-2 text-xs font-bold text-destructive">
-                                  [Required]
-                                </span>
-                              )}
-                            </p>
-                            <p className="mt-0.5 text-xs text-muted-foreground sm:hidden">
-                              Submitted {doc.submittedAt}
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="hidden whitespace-nowrap px-4 py-3.5 text-sm text-muted-foreground sm:table-cell">
-                        {doc.submittedAt}
-                      </td>
-                      <td className="px-4 py-3.5">
-                        <div className="flex items-center justify-between gap-2">
-                          <StatusBadge status={doc.status} />
-                          <button
-                            type="button"
-                            onClick={() => toggle(doc.id)}
-                            aria-expanded={isOpen}
-                            aria-controls={`remarks-${doc.id}`}
-                            aria-label={
-                              hasRemarks
-                                ? `${isOpen ? "Hide" : "Show"} ${doc.remarks.length} remark${doc.remarks.length > 1 ? "s" : ""} for ${doc.title}`
-                                : `${isOpen ? "Hide" : "Show"} details for ${doc.title}`
-                            }
-                            className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-border bg-card text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          >
-                            <ChevronDown
-                              className={cn(
-                                "h-3.5 w-3.5 transition-transform",
-                                isOpen ? "rotate-180" : "rotate-0",
-                              )}
-                              aria-hidden="true"
-                            />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                    {isOpen && (
-                      <tr>
-                        <td
-                          colSpan={3}
-                          id={`remarks-${doc.id}`}
-                          className="border-t border-border bg-muted/30 px-4 py-4"
-                        >
-                          <div className="flex items-center gap-2">
-                            <MessageSquare
-                              className="h-3.5 w-3.5 text-muted-foreground"
-                              aria-hidden="true"
-                            />
-                            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-foreground">
-                              Remarks
-                            </p>
-                          </div>
-                          {hasRemarks ? (
-                            <ol className="mt-3 flex flex-col gap-2">
-                              {doc.remarks.map((remark, idx) => (
-                                <li
-                                  key={`${doc.id}-${idx}`}
-                                  className="rounded-md border border-border bg-card p-3"
-                                >
-                                  <div className="flex flex-wrap items-baseline justify-between gap-2 text-xs">
-                                    <span className="font-bold text-foreground">
-                                      {remark.author}
-                                    </span>
-                                    <span className="text-muted-foreground">
-                                      {remark.date}
-                                    </span>
-                                  </div>
-                                  <p className="mt-1.5 text-sm leading-relaxed text-foreground">
-                                    &ldquo;{remark.body}&rdquo;
-                                  </p>
-                                </li>
-                              ))}
-                            </ol>
-                          ) : (
-                            <p className="mt-2 text-sm text-muted-foreground">
-                              No administrator remarks have been recorded for this document.
-                            </p>
-                          )}
-                        </td>
-                      </tr>
-                    )}
-                  </Fragment>
+                  <tr key={doc.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="px-4 py-3.5">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-foreground">
+                          {doc.title}
+                        </p>
+                        <p className="mt-0.5 text-xs text-muted-foreground sm:hidden">
+                          Accepted: PDF, DOCX, JPG
+                        </p>
+                      </div>
+                    </td>
+                    <td className="hidden whitespace-nowrap px-4 py-3.5 text-xs text-muted-foreground sm:table-cell">
+                      PDF, DOCX, JPG
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <label className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-xs font-medium text-foreground transition-colors hover:bg-muted focus-within:ring-2 focus-within:ring-ring">
+                        <Upload className="h-3.5 w-3.5" aria-hidden="true" />
+                        <span className="max-w-[120px] truncate">
+                          {uploadedFile ? uploadedFile.name : "Choose File"}
+                        </span>
+                        <input
+                          type="file"
+                          accept=".pdf,.docx,.jpg,.jpeg"
+                          className="sr-only"
+                          onChange={(e) => handleFileChange(doc.id, e.target.files?.[0] || null)}
+                          aria-label={`Upload file for ${doc.title}`}
+                        />
+                      </label>
+                    </td>
+                    <td className="hidden whitespace-nowrap px-4 py-3.5 text-sm text-muted-foreground sm:table-cell">
+                      {doc.submittedAt}
+                    </td>
+                  </tr>
                 )
               })}
             </tbody>
           </table>
         </div>
       </section>
+
+      {/* Unified Remarks Section */}
+      <section aria-labelledby={`${id}-remarks-title`}>
+        <h4
+          id={`${id}-remarks-title`}
+          className="mb-3 font-display text-lg font-bold text-brand-blue"
+        >
+          Remarks
+        </h4>
+        <div className="rounded-md border border-border bg-card overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="border-b border-border bg-muted">
+              <tr>
+                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-foreground">
+                  Date
+                </th>
+                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-foreground">
+                  Remarks
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {allRemarks.length > 0 ? (
+                allRemarks.map((remark, idx) => (
+                  <tr key={idx} className="hover:bg-muted/30">
+                    <td className="whitespace-nowrap px-4 py-3 text-xs text-muted-foreground align-top">
+                      {remark.date}
+                    </td>
+                    <td className="px-4 py-3 text-xs text-foreground">
+                      {remark.body}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={2} className="px-4 py-4 text-center text-xs text-muted-foreground">
+                    {documents.length > 0 
+                      ? `Please upload ${documents[0]?.title || "required documents"}`
+                      : "No remarks available"}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* Unified Status Section */}
+      <section aria-labelledby={`${id}-status-title`}>
+        <h4
+          id={`${id}-status-title`}
+          className="mb-3 font-display text-lg font-bold text-brand-blue"
+        >
+          Status
+        </h4>
+        <div className="rounded-md border border-border bg-card overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="border-b border-border bg-muted">
+              <tr>
+                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-foreground">
+                  Date
+                </th>
+                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold text-foreground">
+                  Status
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {allStatuses.length > 0 ? (
+                allStatuses.map((statusEntry, idx) => (
+                  <tr key={idx} className="hover:bg-muted/30">
+                    <td className="whitespace-nowrap px-4 py-3 text-xs text-muted-foreground align-top">
+                      {statusEntry.date}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      <StatusIndicator status={statusEntry.status} />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={2} className="px-4 py-4 text-center text-xs text-muted-foreground">
+                    No status updates available
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
+  )
+}
+
+function StatusIndicator({ status }: { status: string }) {
+  const statusConfig = {
+    received: { text: "SUBMITTED", color: "text-foreground" },
+    pending: { text: "FOR OSA REVIEW", color: "text-status-pending" },
+    incomplete: { text: "APPROVED SCHOLARSHIP", color: "text-status-received" },
+  }
+
+  const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.received
+
+  return (
+    <span className={`inline-flex items-center font-semibold ${config.color}`}>
+      {config.text}
+    </span>
   )
 }

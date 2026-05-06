@@ -2,13 +2,6 @@ import { AlertTriangle, BookOpen, Calendar, GraduationCap, User } from "lucide-r
 import { portalConfig, swisDeficiencies } from "@/lib/portal-config"
 import type { DeficiencyRecord } from "@/lib/portal-types"
 
-const REASON_TONE: Record<DeficiencyRecord["reason"], string> = {
-  Failed: "bg-status-incomplete/15 text-status-incomplete border-status-incomplete/30",
-  Incomplete: "bg-status-pending/15 text-status-pending border-status-pending/30",
-  Withdrawn: "bg-muted text-muted-foreground border-border",
-  Dropped: "bg-muted text-muted-foreground border-border",
-}
-
 export function DeficienciesTab() {
   const cfg = portalConfig.swis.deficiencies
   const totalUnits = swisDeficiencies.reduce((sum, item) => sum + item.units, 0)
@@ -47,7 +40,6 @@ export function DeficienciesTab() {
           icon={AlertTriangle}
           label="Status"
           value={swisDeficiencies.length > 0 ? "Action Required" : "Clear"}
-          tone="incomplete"
         />
       </div>
 
@@ -104,12 +96,8 @@ export function DeficienciesTab() {
                     <td className="px-4 py-3 text-center font-semibold">
                       {row.grade}
                     </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex rounded-full border px-2 py-0.5 text-xs font-semibold ${REASON_TONE[row.reason]}`}
-                      >
-                        {row.reason}
-                      </span>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {row.reason}
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {row.nextOffering}
@@ -135,9 +123,7 @@ export function DeficienciesTab() {
                       {row.title}
                     </p>
                   </div>
-                  <span
-                    className={`shrink-0 rounded-full border px-2 py-0.5 text-xs font-semibold ${REASON_TONE[row.reason]}`}
-                  >
+                  <span className="shrink-0 text-xs text-muted-foreground">
                     {row.reason}
                   </span>
                 </div>
@@ -166,26 +152,20 @@ function SummaryStat({
   icon: Icon,
   label,
   value,
-  tone,
 }: {
   icon: typeof BookOpen
   label: string
   value: string
-  tone?: "incomplete"
 }) {
-  const toneClass =
-    tone === "incomplete"
-      ? "text-status-incomplete"
-      : "text-foreground"
   return (
     <div className="rounded-lg border border-border bg-card p-4 shadow-sm">
       <div className="flex items-center gap-2">
-        <Icon className={`h-4 w-4 ${toneClass}`} aria-hidden="true" />
+        <Icon className="h-4 w-4 text-foreground" aria-hidden="true" />
         <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           {label}
         </p>
       </div>
-      <p className={`mt-2 font-display text-2xl font-bold ${toneClass}`}>
+      <p className="mt-2 font-display text-2xl font-bold text-foreground">
         {value}
       </p>
     </div>
